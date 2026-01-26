@@ -19,7 +19,7 @@
 .EXAMPLE
     .\Deploy-Infrastructure.ps1 -SkipVCSA -SkipStorage
 .NOTES
-    Author: VMware Automation Team
+    Author: John Pedro
     Version: 1.0.0
     Requires: VMware.PowerCLI 13.0+
 #>
