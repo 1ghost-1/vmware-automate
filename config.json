@@ -1,0 +1,190 @@
+{
+  "environment": {
+    "name": "Production",
+    "description": "vSphere 8.0.3U Production Environment"
+  },
+  "vcenter": {
+    "server": "vcenter.domain.local",
+    "deployNew": false,
+    "vcsa": {
+      "iso": "C:\\ISO\\VMware-VCSA-all-8.0.3-xxxxx.iso",
+      "deploymentSize": "small",
+      "targetEsxiHost": "esxi01.domain.local",
+      "targetDatastore": "local-ds01",
+      "targetNetwork": "VM Network",
+      "hostname": "vcenter.domain.local",
+      "ip": "192.168.1.10",
+      "prefix": "24",
+      "gateway": "192.168.1.1",
+      "dns": ["192.168.1.5", "192.168.1.6"],
+      "ssoPassword": "",
+      "ssoDomain": "vsphere.local"
+    }
+  },
+  "datacenter": {
+    "name": "DC-01"
+  },
+  "cluster": {
+    "name": "Cluster-01",
+    "ha": {
+      "enabled": true,
+      "admissionControl": {
+        "type": "ResourcePercentage",
+        "cpuPercent": 12,
+        "memoryPercent": 12
+      },
+      "hostMonitoring": "enabled",
+      "vmMonitoring": "vmMonitoringOnly",
+      "heartbeatDatastorePolicy": "allFeasibleDsWithUserPreference"
+    },
+    "drs": {
+      "enabled": true,
+      "automationLevel": "FullyAutomated",
+      "migrationThreshold": 3
+    },
+    "evc": {
+      "enabled": false,
+      "mode": ""
+    }
+  },
+  "esxiHosts": [
+    {
+      "hostname": "esxi01.domain.local",
+      "managementIp": "192.168.1.21",
+      "vmotionIp": "10.10.10.21",
+      "vsanIp": "10.10.20.21"
+    },
+    {
+      "hostname": "esxi02.domain.local",
+      "managementIp": "192.168.1.22",
+      "vmotionIp": "10.10.10.22",
+      "vsanIp": "10.10.20.22"
+    },
+    {
+      "hostname": "esxi03.domain.local",
+      "managementIp": "192.168.1.23",
+      "vmotionIp": "10.10.10.23",
+      "vsanIp": "10.10.20.23"
+    },
+    {
+      "hostname": "esxi04.domain.local",
+      "managementIp": "192.168.1.24",
+      "vmotionIp": "10.10.10.24",
+      "vsanIp": "10.10.20.24"
+    },
+    {
+      "hostname": "esxi05.domain.local",
+      "managementIp": "192.168.1.25",
+      "vmotionIp": "10.10.10.25",
+      "vsanIp": "10.10.20.25"
+    },
+    {
+      "hostname": "esxi06.domain.local",
+      "managementIp": "192.168.1.26",
+      "vmotionIp": "10.10.10.26",
+      "vsanIp": "10.10.20.26"
+    },
+    {
+      "hostname": "esxi07.domain.local",
+      "managementIp": "192.168.1.27",
+      "vmotionIp": "10.10.10.27",
+      "vsanIp": "10.10.20.27"
+    },
+    {
+      "hostname": "esxi08.domain.local",
+      "managementIp": "192.168.1.28",
+      "vmotionIp": "10.10.10.28",
+      "vsanIp": "10.10.20.28"
+    },
+    {
+      "hostname": "esxi09.domain.local",
+      "managementIp": "192.168.1.29",
+      "vmotionIp": "10.10.10.29",
+      "vsanIp": "10.10.20.29"
+    }
+  ],
+  "esxiCredential": {
+    "username": "root",
+    "useGetCredential": true
+  },
+  "networking": {
+    "vds": {
+      "name": "VDS-Core",
+      "version": "8.0.0",
+      "mtu": 9000,
+      "uplinks": ["vmnic0", "vmnic1"],
+      "uplinkCount": 2,
+      "lacpEnabled": false,
+      "loadBalancing": "LoadBalanceLoadBased"
+    },
+    "portGroups": [
+      {
+        "name": "PG-Management",
+        "vlanId": 0,
+        "type": "Management"
+      },
+      {
+        "name": "PG-vMotion",
+        "vlanId": 10,
+        "type": "vMotion"
+      },
+      {
+        "name": "PG-VMTraffic",
+        "vlanId": 20,
+        "type": "VMTraffic"
+      },
+      {
+        "name": "PG-vSAN",
+        "vlanId": 30,
+        "type": "vSAN"
+      }
+    ],
+    "vmotionTcpIpStack": {
+      "enabled": true,
+      "gateway": "10.10.10.1",
+      "subnetMask": "255.255.255.0"
+    }
+  },
+  "storage": {
+    "vsan": {
+      "enabled": true,
+      "claimMode": "Automatic",
+      "deduplicationEnabled": true,
+      "compressionEnabled": true,
+      "encryptionEnabled": false,
+      "stretchedCluster": false,
+      "diskGroups": {
+        "cacheDisks": ["naa.xxxxxxxxxxxxxxxx"],
+        "capacityDisks": ["naa.yyyyyyyyyyyyyyyy", "naa.zzzzzzzzzzzzzzzz"]
+      },
+      "faultDomains": [],
+      "storagePolicy": {
+        "name": "vSAN-Default",
+        "failuresToTolerate": 1,
+        "raidType": "RAID-1"
+      }
+    },
+    "datastores": []
+  },
+  "services": {
+    "ntp": {
+      "servers": ["ntp1.domain.local", "ntp2.domain.local"],
+      "policy": "on"
+    },
+    "dns": {
+      "servers": ["192.168.1.5", "192.168.1.6"],
+      "searchDomains": ["domain.local"]
+    },
+    "syslog": {
+      "server": "syslog.domain.local",
+      "port": 514,
+      "protocol": "udp"
+    }
+  },
+  "security": {
+    "lockdownMode": "disabled",
+    "firewallRulesetsEnabled": ["syslog", "ntpClient", "vSAN"],
+    "shellTimeout": 900,
+    "sshEnabled": false
+  }
+}
