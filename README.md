@@ -49,6 +49,8 @@ vmware-automate/
 |-- config.json                 Configuration file (EDIT THIS FIRST)
 |-- Deploy-Infrastructure.ps1   Main orchestrator script
 |-- Deploy-VCSA.ps1             VCSA deployment script
+|-- ecst-vmware.py              Python menu-driven automation tool
+|-- run-ecst-vmware.bat         Windows launcher for Python tool
 |-- README.md                   This file
 |
 +-- modules/
@@ -66,7 +68,66 @@ vmware-automate/
 
 ## Quick Start
 
-### Step 1: Configure Your Environment
+### Option 1: Python Menu-Driven Tool (Recommended)
+
+The easiest way to use this toolkit is through the Python menu-driven interface:
+
+```bash
+# Windows
+run-ecst-vmware.bat
+
+# Or run Python directly
+python ecst-vmware.py
+```
+
+This provides an interactive menu with the following options:
+
+```
+Main Menu:
+
+  1. Deploy vCenter (VCSA)
+  2. Deploy Infrastructure (Full)
+  3. Deploy Datacenter
+  4. Deploy Cluster
+  5. Configure Infrastructure
+  6. Deploy Virtual Machine
+
+  C. Configuration Management
+  S. Show Current Status
+  Q. Quit
+```
+
+#### Configure Infrastructure Submenu
+
+```
+  1. Configure vSAN
+  2. Configure vDS (Distributed Switch)
+  3. Configure vMotion
+  4. Configure NTP/DNS/Syslog
+  5. Configure Security Settings
+  6. Configure All (Full)
+```
+
+#### Deploy Virtual Machine Options
+
+```
+  1. Deploy VM from Template
+     - Splunk Enterprise
+     - Cribl Stream/Edge
+     - Forescout CounterACT
+     - Windows Server 2022
+     - RHEL 9
+     - Ubuntu 22.04 LTS
+
+  2. Deploy Standard Virtual Machine
+     - Choose OS Type (RHEL, Ubuntu, Windows, CentOS, Debian)
+     - Select Size (Small, Medium, Large, XLarge)
+     - Configure: VMName, TagName, IP Address
+```
+
+### Option 2: PowerShell Scripts (Direct)
+
+#### Step 1: Configure Your Environment
 
 Edit `config.json` and replace ALL placeholder values:
 
@@ -76,7 +137,7 @@ Edit `config.json` and replace ALL placeholder values:
 - NTP, DNS, and Syslog servers
 - vSAN disk configuration
 
-### Step 2: Run the Deployment
+#### Step 2: Run the Deployment
 
 Open PowerShell and navigate to the project directory:
 
@@ -85,7 +146,7 @@ cd "G:\My Drive\Github\vmware-automate"
 .\Deploy-Infrastructure.ps1 -ConfigPath .\config.json
 ```
 
-### Step 3: Enter Credentials When Prompted
+#### Step 3: Enter Credentials When Prompted
 
 You will be prompted for:
 - vCenter Administrator credentials
@@ -243,6 +304,84 @@ The `config.json` file contains all environment parameters. Key sections:
 ```powershell
 .\Deploy-VCSA.ps1 -ConfigPath .\config.json
 ```
+
+---
+
+## Python Automation Tool (ecst-vmware.py)
+
+The Python menu-driven tool provides a user-friendly interface for all VMware automation tasks.
+
+### Requirements
+
+- Python 3.8 or higher
+- Windows with PowerShell (for PowerCLI execution)
+- VMware PowerCLI module installed
+
+### Features
+
+| Feature | Description |
+|---------|-------------|
+| **Interactive Menu** | Easy-to-navigate menu system with color-coded output |
+| **Deploy vCenter** | Automated VCSA deployment preparation |
+| **Deploy Infrastructure** | Full infrastructure deployment in one click |
+| **Configure Components** | Individual configuration of vSAN, VDS, vMotion |
+| **VM Deployment** | Deploy VMs from templates or create standard VMs |
+| **Status Dashboard** | View current environment status |
+| **Configuration Management** | View and reload configuration |
+
+### VM Templates
+
+The tool supports the following pre-configured templates:
+
+| Template | Description |
+|----------|-------------|
+| Splunk | Splunk Enterprise Server |
+| Cribl | Cribl Stream/Edge |
+| Forescout | Forescout CounterACT |
+| Windows Server | Windows Server 2022 |
+| RHEL 9 | Red Hat Enterprise Linux 9 |
+| Ubuntu 22.04 | Ubuntu Server 22.04 LTS |
+
+### VM Sizes
+
+| Size | vCPU | Memory | Disk |
+|------|------|--------|------|
+| Small | 2 | 4 GB | 50 GB |
+| Medium | 4 | 8 GB | 100 GB |
+| Large | 8 | 16 GB | 200 GB |
+| XLarge | 16 | 32 GB | 500 GB |
+
+### Standard VM Deployment
+
+Deploy a standard VM with custom specifications:
+
+```
+-VMName "rhel-web-01"
+-OSType RHEL
+-Size "Small"
+-TagName "WebApp-Linux"
+-IP address "192.168.1.100"
+```
+
+### Running the Tool
+
+```bash
+# Windows - Using batch file
+run-ecst-vmware.bat
+
+# Windows - Direct Python
+python ecst-vmware.py
+
+# With specific Python version
+python3 ecst-vmware.py
+```
+
+### Tool Navigation
+
+- Use number keys to select menu options
+- Press `B` to go back to the previous menu
+- Press `Q` to quit the application
+- Follow prompts for configuration values
 
 ---
 
